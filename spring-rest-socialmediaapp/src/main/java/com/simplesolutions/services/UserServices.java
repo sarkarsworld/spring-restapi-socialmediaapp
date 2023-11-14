@@ -35,4 +35,9 @@ public class UserServices {
 		users.add(newUser);
 		return newUser;
 	}
+
+	public void deleteUserById(int id) {
+		Predicate<User> predicate = user -> user.getId() == id;
+		users.removeIf(predicate);
+	}
 }
