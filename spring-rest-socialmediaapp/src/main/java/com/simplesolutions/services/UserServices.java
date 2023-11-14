@@ -27,7 +27,7 @@ public class UserServices {
 	
 	public User getUserById(int id) {
 		Predicate<User> predicate = user -> id == user.getId();
-		return users.stream().filter(predicate).findFirst().get();
+		return users.stream().filter(predicate).findFirst().orElse(null);
 	}
 	
 	public User addUser(User user) {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.simplesolutions.entity.User;
+import com.simplesolutions.exceptions.UserNotFoundException;
 import com.simplesolutions.services.UserServices;
 
 @RestController
@@ -30,7 +31,13 @@ public class UserController {
 	
 	@GetMapping("/{id}")
 	public User getUserById(@PathVariable int id) {
-		return userServices.getUserById(id);
+		User user = userServices.getUserById(id);
+		
+		if (null == user) {
+			throw new UserNotFoundException("id:"+id);
+		}
+		
+		return user;
 	}
 	
 	@PostMapping("/")
