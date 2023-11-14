@@ -18,6 +18,8 @@ import com.simplesolutions.entity.User;
 import com.simplesolutions.exceptions.UserNotFoundException;
 import com.simplesolutions.services.UserServices;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -42,7 +44,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/")
-	public ResponseEntity<User> addUser(@RequestBody User user) {
+	public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
 		User addedUser = userServices.addUser(user);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
