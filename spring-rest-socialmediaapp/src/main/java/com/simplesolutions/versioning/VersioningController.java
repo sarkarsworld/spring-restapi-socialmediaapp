@@ -39,5 +39,17 @@ public class VersioningController {
 	public PersonV2 getPersonNameV2RequestHeaders() {
 		return new PersonV2(new Name("Alok", "Sarkar"));
 	}
+	
+	
+	// ----------------  Media Type Versioning example / Content-Negotiation / Accept-Header.
+	@GetMapping(path = "/getPersonName", produces = "application/v1+json") 
+	public PersonV1 getPersonNameV1AcceptHeader() {
+		return new PersonV1("Alok Sarkar");		
+	}
+	
+	@GetMapping(path = "/getPersonName", produces = "application/v2+json")
+	public PersonV2 getPersonNameV2AcceptHeader() {
+		return new PersonV2(new Name("Alok", "Sarkar"));
+	}
 
 }
