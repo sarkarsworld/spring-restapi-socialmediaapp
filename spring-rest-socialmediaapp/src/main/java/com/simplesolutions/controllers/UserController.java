@@ -7,6 +7,8 @@ import java.util.Locale;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,15 +50,28 @@ public class UserController {
 		return userServices.getAllUsers();
 	}
 	
+	/**
+	 * We can demonstrate the HATEOAS principles here on this method by returning the link to 'all users'.
+	 * 
+	 * We need two important classes EntityModel and WebMvcLinkBuilder
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/{id}")
-	public User getUserById(@PathVariable int id) {
+	public EntityModel<User> getUserById(@PathVariable int id) {
 		User user = userServices.getUserById(id);
 		
 		if (null == user) {
 			throw new UserNotFoundException("id:"+id);
 		}
 		
-		return user;
+		EntityModel<User> entityModel = EntityModel.of(user);
+		
+		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(this.getClass()).getAllUsers());
+		entityModel.add(link.withRel("all-users"));
+		
+		return entityModel;
 	}
 	
 	@PostMapping("/")
