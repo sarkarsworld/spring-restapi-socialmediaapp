@@ -28,5 +28,16 @@ public class VersioningController {
 		return new PersonV2(new Name("Alok", "Sarkar"));
 	}
 	
+	
+	// ----------------  Request Header Versioning example.
+	@GetMapping(path = "/getPersonName", headers = "v=1")
+	public PersonV1 getPersonNameV1RequestHeaders() {
+		return new PersonV1("Alok Sarkar");		
+	}
+	
+	@GetMapping(path = "/getPersonName", headers = "v=2")
+	public PersonV2 getPersonNameV2RequestHeaders() {
+		return new PersonV2(new Name("Alok", "Sarkar"));
+	}
 
 }
