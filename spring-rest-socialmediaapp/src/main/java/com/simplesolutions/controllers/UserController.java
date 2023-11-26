@@ -2,8 +2,11 @@ package com.simplesolutions.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +29,19 @@ public class UserController {
 	
 	@Autowired
 	private UserServices userServices;
+	
+	private MessageSource messageSource;
+	
+	public UserController(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
+
+	// This is an example of Internationalization.
+	@GetMapping("/greetUser")
+	public String greetUser() {
+		Locale locale = LocaleContextHolder.getLocale();
+		return messageSource.getMessage("hello.user.message", null, "Default Message", locale );
+	}
 	
 	@GetMapping("/")
 	public List<User> getAllUsers() {
